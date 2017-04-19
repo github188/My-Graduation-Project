@@ -1,0 +1,453 @@
+Removed Pin From Net: NetName=GND Pin=C15-1
+Removed Pin From Net: NetName=D33V Pin=C15-2
+Removed Pin From Net: NetName=GND Pin=C21-2
+Removed Pin From Net: NetName=VCPU Pin=C85-1
+Removed Pin From Net: NetName=GND Pin=C87-2
+Removed Pin From Net: NetName=VCPU Pin=C88-1
+Removed Pin From Net: NetName=GND Pin=C88-2
+Removed Pin From Net: NetName=GND Pin=C96-1
+Removed Pin From Net: NetName=D33V Pin=C96-2
+Removed Pin From Net: NetName=+5V Pin=J4-1
+Removed Pin From Net: NetName=+5V Pin=J4-2
+Removed Pin From Net: NetName=GND Pin=J4-11
+Removed Pin From Net: NetName=GND Pin=J4-12
+Removed Pin From Net: NetName=NINT Pin=J6-1
+Removed Pin From Net: NetName=NSS3 Pin=J6-2
+Removed Pin From Net: NetName=SCK1 Pin=J6-3
+Removed Pin From Net: NetName=MOSI1 Pin=J6-4
+Removed Pin From Net: NetName=GND Pin=J6-5
+Removed Pin From Net: NetName=GND Pin=J6-6
+Removed Pin From Net: NetName=GND Pin=J9-1
+Removed Pin From Net: NetName=UTXD Pin=J9-2
+Removed Pin From Net: NetName=URXD Pin=J9-3
+Removed Pin From Net: NetName=GND Pin=J10-1
+Removed Pin From Net: NetName=USB_DP Pin=J10-2
+Removed Pin From Net: NetName=USB_DM Pin=J10-3
+Removed Pin From Net: NetName=GND Pin=LAN-1
+Removed Pin From Net: NetName=GND Pin=LAN-2
+Removed Pin From Net: NetName=GND Pin=LAN-3
+Removed Pin From Net: NetName=MOSI1 Pin=LAN-5
+Removed Pin From Net: NetName=SCK1 Pin=LAN-7
+Removed Pin From Net: NetName=NSS3 Pin=LAN-9
+Removed Pin From Net: NetName=NRST Pin=LAN-10
+Removed Pin From Net: NetName=NINT Pin=LAN-11
+Removed Pin From Net: NetName=MISO1 Pin=LAN-12
+Removed Pin From Net: NetName=GND Pin=led3-2
+Removed Pin From Net: NetName=3V Pin=M1-1
+Removed Pin From Net: NetName=GND Pin=M1-2
+Removed Pin From Net: NetName=U2_TX Pin=M1-3
+Removed Pin From Net: NetName=U2_RX Pin=M1-4
+Removed Pin From Net: NetName=EN2 Pin=M1-5
+Removed Pin From Net: NetName=3V Pin=M2-1
+Removed Pin From Net: NetName=GND Pin=M2-2
+Removed Pin From Net: NetName=U3_TX Pin=M2-3
+Removed Pin From Net: NetName=U3_RX Pin=M2-4
+Removed Pin From Net: NetName=EN3 Pin=M2-5
+Removed Pin From Net: NetName=3V Pin=M3-1
+Removed Pin From Net: NetName=GND Pin=M3-2
+Removed Pin From Net: NetName=U6_TX Pin=M3-3
+Removed Pin From Net: NetName=U6_RX Pin=M3-4
+Removed Pin From Net: NetName=EN6 Pin=M3-5
+Removed Pin From Net: NetName=3V Pin=M6-1
+Removed Pin From Net: NetName=GND Pin=M6-2
+Removed Pin From Net: NetName=CAN_TX1 Pin=M6-3
+Removed Pin From Net: NetName=CAN_RX1 Pin=M6-4
+Removed Pin From Net: NetName=GND Pin=Q1-2
+Removed Pin From Net: NetName=EN5 Pin=R10-1
+Removed Pin From Net: NetName=GND Pin=R10-2
+Removed Pin From Net: NetName=USB_PWR Pin=R18-1
+Removed Pin From Net: NetName=3V Pin=R19-1
+Removed Pin From Net: NetName=+5V Pin=R35-1
+Removed Pin From Net: NetName=GND Pin=R41-2
+Removed Pin From Net: NetName=UBOOT Pin=T4-1
+Removed Pin From Net: NetName=VCPU Pin=T5-1
+Removed Pin From Net: NetName=GND Pin=T6-1
+Removed Pin From Net: NetName=NSS1 Pin=U5-1
+Removed Pin From Net: NetName=MISO1 Pin=U5-2
+Removed Pin From Net: NetName=D33V Pin=U5-3
+Removed Pin From Net: NetName=GND Pin=U5-4
+Removed Pin From Net: NetName=MOSI1 Pin=U5-5
+Removed Pin From Net: NetName=SCK1 Pin=U5-6
+Removed Pin From Net: NetName=D33V Pin=U5-7
+Removed Pin From Net: NetName=D33V Pin=U5-8
+Removed Pin From Net: NetName=SFCS0 Pin=U12-1
+Removed Pin From Net: NetName=SFDO Pin=U12-2
+Removed Pin From Net: NetName=GND Pin=U12-4
+Removed Pin From Net: NetName=SFDI Pin=U12-5
+Removed Pin From Net: NetName=SFCL Pin=U12-6
+Removed Pin From Net: NetName=D33V Pin=U12-7
+Removed Pin From Net: NetName=D33V Pin=U12-8
+Removed Pin From Net: NetName=U5_RX Pin=U13-1
+Removed Pin From Net: NetName=EN5 Pin=U13-2
+Removed Pin From Net: NetName=EN5 Pin=U13-3
+Removed Pin From Net: NetName=U5_TX Pin=U13-4
+Removed Pin From Net: NetName=GND Pin=U13-5
+Removed Pin From Net: NetName=D33V Pin=U13-8
+Removed Pin From Net: NetName=UTXD Pin=U14-7
+Removed Pin From Net: NetName=URXD Pin=U14-8
+Removed Pin From Net: NetName=RXD1 Pin=U14-9
+Removed Pin From Net: NetName=TXD1 Pin=U14-10
+Removed Pin From Net: NetName=GND Pin=U14-15
+Removed Pin From Net: NetName=VCPU Pin=U14-16
+Removed Pin From Net: NetName=GND Pin=USB_E-1
+Removed Pin From Net: NetName=USB_DP Pin=USB_E-2
+Removed Pin From Net: NetName=USB_DM Pin=USB_E-3
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C15
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C85
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C86
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C87
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C88
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C89
+Removed Member From Class: ClassName=20160506Core_Cpu Member=C96
+Removed Member From Class: ClassName=20160506Core_Cpu Member=J4
+Removed Member From Class: ClassName=20160506Core_Cpu Member=J6
+Removed Member From Class: ClassName=20160506Core_Cpu Member=JC2
+Removed Member From Class: ClassName=20160506Core_Cpu Member=JC4
+Removed Member From Class: ClassName=20160506Core_Cpu Member=JC5
+Removed Member From Class: ClassName=20160506Core_Cpu Member=JC6
+Removed Member From Class: ClassName=20160506Core_Cpu Member=LAN
+Removed Member From Class: ClassName=20160506Core_Cpu Member=M1
+Removed Member From Class: ClassName=20160506Core_Cpu Member=M2
+Removed Member From Class: ClassName=20160506Core_Cpu Member=M3
+Removed Member From Class: ClassName=20160506Core_Cpu Member=M6
+Removed Member From Class: ClassName=20160506Core_Cpu Member=Q1
+Removed Member From Class: ClassName=20160506Core_Cpu Member=Q2
+Removed Member From Class: ClassName=20160506Core_Cpu Member=R8
+Removed Member From Class: ClassName=20160506Core_Cpu Member=R10
+Removed Member From Class: ClassName=20160506Core_Cpu Member=R14
+Removed Member From Class: ClassName=20160506Core_Cpu Member=R18
+Removed Member From Class: ClassName=20160506Core_Cpu Member=R19
+Removed Member From Class: ClassName=20160506Core_Cpu Member=U5
+Removed Member From Class: ClassName=20160506Core_Cpu Member=U12
+Removed Member From Class: ClassName=20160506Core_Cpu Member=U13
+Removed Member From Class: ClassName=20160506Core_Cpu Member=U14
+Removed Member From Class: ClassName=20160506Core_Cpu Member=USB_E
+Change Component DesignItemId : Designator=J7 Old DesignItemId= New DesignItemId=6PIN_1.25
+Change Component DesignItemId : Designator=U3 Old DesignItemId= New DesignItemId=74HC244
+Change Component DesignItemId : Designator=J1 Old DesignItemId= New DesignItemId=5569-4P
+Change Component DesignItemId : Designator=J2 Old DesignItemId= New DesignItemId=AT070TN92
+Change Component DesignItemId : Designator=Dd3 Old DesignItemId= New DesignItemId=BAT54S
+Change Component DesignItemId : Designator=Dd4 Old DesignItemId= New DesignItemId=BAT54S
+Change Component DesignItemId : Designator=BT1 Old DesignItemId= New DesignItemId=BATTERY
+Change Component DesignItemId : Designator=D2 Old DesignItemId= New DesignItemId=BAV70_1
+Change Component DesignItemId : Designator=GDT1 Old DesignItemId= New DesignItemId=BF801M
+Change Component DesignItemId : Designator=GDT2 Old DesignItemId= New DesignItemId=BF801M
+Change Component DesignItemId : Designator=C1 Old DesignItemId= New DesignItemId=Cap
+Change Component DesignItemId : Designator=C2 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C3 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C4 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C5 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C6 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C7 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C8 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C9 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C10 Old DesignItemId= New DesignItemId=Cap
+Change Component DesignItemId : Designator=C11 Old DesignItemId= New DesignItemId=Cap
+Change Component DesignItemId : Designator=C12 Old DesignItemId= New DesignItemId=Cap
+Change Component DesignItemId : Designator=C13 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C16 Old DesignItemId= New DesignItemId=Cap
+Change Component DesignItemId : Designator=C18 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C19 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C20 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C22 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C23 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C25 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C28 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C29 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C30 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C31 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C32 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C33 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C34 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C35 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C36 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C37 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C38 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C39 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C40 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C41 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C42 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C43 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C44 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C45 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C46 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C47 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C50 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C51 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C65 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C66 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C67 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C150 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd1 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd2 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd3 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd4 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd32 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd33 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd34 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd35 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd36 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd37 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd38 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd39 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd43 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd46 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd47 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd49 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cd50 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF1 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF2 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF7 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF8 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF9 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF11 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF13 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=CF14 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cp2 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cx1 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cy1 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=Cy2 Old DesignItemId= New DesignItemId=CAP
+Change Component DesignItemId : Designator=C14 Old DesignItemId= New DesignItemId=Cap_0603
+Change Component DesignItemId : Designator=JC1 Old DesignItemId= New DesignItemId=CON3
+Change Component DesignItemId : Designator=JC3 Old DesignItemId= New DesignItemId=CON3
+Change Component DesignItemId : Designator=J3 Old DesignItemId= New DesignItemId=CON4
+Change Component DesignItemId : Designator=J8 Old DesignItemId= New DesignItemId=CON4
+Change Component DesignItemId : Designator=J5 Old DesignItemId= New DesignItemId=CON12
+Change Component DesignItemId : Designator=Y1 Old DesignItemId= New DesignItemId=CRYSTAL
+Change Component DesignItemId : Designator=Y2 Old DesignItemId= New DesignItemId=CRYSTAL
+Change Component DesignItemId : Designator=M5 Old DesignItemId= New DesignItemId=CTM1050
+Change Component DesignItemId : Designator=D1 Old DesignItemId= New DesignItemId=DIODE
+Change Component DesignItemId : Designator=D4 Old DesignItemId= New DesignItemId=DIODE
+Change Component DesignItemId : Designator=D5 Old DesignItemId= New DesignItemId=DIODE
+Change Component DesignItemId : Designator=Dd1 Old DesignItemId= New DesignItemId=DIODE
+Change Component DesignItemId : Designator=Dd6 Old DesignItemId= New DesignItemId=DIODE
+Change Component DesignItemId : Designator=L1 Old DesignItemId= New DesignItemId=DLW5BSN
+Change Component DesignItemId : Designator=C17 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=C24 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=C56 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=C57 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=C58 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=C97 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=Cp1 Old DesignItemId= New DesignItemId=EC
+Change Component DesignItemId : Designator=U1 Old DesignItemId= New DesignItemId=FY-STM32F103VET6-C
+Change Component DesignItemId : Designator=L3 Old DesignItemId= New DesignItemId=INDUCTOR
+Change Component DesignItemId : Designator=L4 Old DesignItemId= New DesignItemId=INDUCTOR
+Change Component DesignItemId : Designator=L5 Old DesignItemId= New DesignItemId=INDUCTOR
+Change Component DesignItemId : Designator=L6 Old DesignItemId= New DesignItemId=INDUCTOR
+Change Component DesignItemId : Designator=L8 Old DesignItemId= New DesignItemId=INDUCTOR
+Change Component DesignItemId : Designator=Ld1 Old DesignItemId= New DesignItemId=L
+Change Component DesignItemId : Designator=Ld2 Old DesignItemId= New DesignItemId=L
+Change Component DesignItemId : Designator=led1 Old DesignItemId= New DesignItemId=LED
+Change Component DesignItemId : Designator=led2 Old DesignItemId= New DesignItemId=LED
+Change Component DesignItemId : Designator=LED4 Old DesignItemId= New DesignItemId=LED
+Change Component DesignItemId : Designator=N1 Old DesignItemId= New DesignItemId=LM1117
+Change Component DesignItemId : Designator=N7 Old DesignItemId= New DesignItemId=LM1117
+Change Component DesignItemId : Designator=N4 Old DesignItemId= New DesignItemId=LM22670
+Change Component DesignItemId : Designator=N5 Old DesignItemId= New DesignItemId=LM22670
+Change Component DesignItemId : Designator=Y3 Old DesignItemId= New DesignItemId=M3_32768
+Change Component DesignItemId : Designator=U9 Old DesignItemId= New DesignItemId=MAX809TD
+Change Component DesignItemId : Designator=Ud5 Old DesignItemId= New DesignItemId=MP3302DJ
+Change Component DesignItemId : Designator=RP1 Old DesignItemId= New DesignItemId=PZ
+Change Component DesignItemId : Designator=RP2 Old DesignItemId= New DesignItemId=PZ
+Change Component DesignItemId : Designator=RP3 Old DesignItemId= New DesignItemId=PZ
+Change Component DesignItemId : Designator=RP4 Old DesignItemId= New DesignItemId=PZ
+Change Component DesignItemId : Designator=R5 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R6 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R7 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R11 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R15 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R20 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R21 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R22 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R23 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R24 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R25 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=R38 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=RB1 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=RB2 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=RB10 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd4 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd5 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd6 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd7 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd8 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd10 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd11 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd12 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd13 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd14 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd15 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd26 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rd28 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rl1 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rl2 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rl3 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=Rl4 Old DesignItemId= New DesignItemId=R
+Change Component DesignItemId : Designator=U2 Old DesignItemId= New DesignItemId=RA8875
+Change Component DesignItemId : Designator=R1 Old DesignItemId= New DesignItemId=Res2
+Change Component DesignItemId : Designator=R2 Old DesignItemId= New DesignItemId=Res2
+Change Component DesignItemId : Designator=R3 Old DesignItemId= New DesignItemId=Res2
+Change Component DesignItemId : Designator=R4 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R12 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R13 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R16 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R17 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R30 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R34 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R36 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R37 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R39 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R40 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R104 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R105 Old DesignItemId= New DesignItemId=RES2
+Change Component DesignItemId : Designator=R9 Old DesignItemId= New DesignItemId=Res_0603
+Change Component DesignItemId : Designator=M4 Old DesignItemId= New DesignItemId=RSM3485PCHT
+Change Component DesignItemId : Designator=tp1 Old DesignItemId= New DesignItemId=TP
+Change Component DesignItemId : Designator=Ud7 Old DesignItemId= New DesignItemId=TPS61040
+Change Component DesignItemId : Designator=MOV1 Old DesignItemId= New DesignItemId=VR
+Change Component DesignItemId : Designator=MOV2 Old DesignItemId= New DesignItemId=VR
+Change Component DesignItemId : Designator=MOV3 Old DesignItemId= New DesignItemId=VR
+Change Component DesignItemId : Designator=U6 Old DesignItemId= New DesignItemId=W25X16
+Change Component DesignItemId : Designator=Dd2 Old DesignItemId= New DesignItemId=ZENER
+Change Component DesignItemId : Designator=Dd5 Old DesignItemId= New DesignItemId=ZENER
+Change Component DesignItemId : Designator=ZP1 Old DesignItemId= New DesignItemId=ZENER
+Change Component Comment : Designator=R40 Old Comment=0 New Comment=10M
+Change Component Description : Designator=BT1 Old Description= New Description=Battery
+Change Component Description : Designator=C1 Old Description= New Description=Capacitor
+Change Component Description : Designator=C2 Old Description= New Description=Capacitor
+Change Component Description : Designator=C3 Old Description= New Description=Capacitor
+Change Component Description : Designator=C4 Old Description= New Description=Capacitor
+Change Component Description : Designator=C6 Old Description= New Description=Capacitor
+Change Component Description : Designator=C7 Old Description= New Description=Capacitor
+Change Component Description : Designator=C9 Old Description= New Description=Capacitor
+Change Component Description : Designator=C10 Old Description= New Description=Capacitor
+Change Component Description : Designator=C11 Old Description= New Description=Capacitor
+Change Component Description : Designator=C12 Old Description= New Description=Capacitor
+Change Component Description : Designator=C13 Old Description= New Description=Capacitor
+Change Component Description : Designator=C14 Old Description= New Description=Capacitor
+Change Component Description : Designator=C16 Old Description= New Description=Capacitor
+Change Component Description : Designator=C18 Old Description= New Description=Capacitor
+Change Component Description : Designator=C19 Old Description= New Description=Capacitor
+Change Component Description : Designator=C20 Old Description= New Description=Capacitor
+Change Component Description : Designator=C22 Old Description= New Description=Capacitor
+Change Component Description : Designator=C23 Old Description= New Description=Capacitor
+Change Component Description : Designator=C25 Old Description= New Description=Capacitor
+Change Component Description : Designator=C28 Old Description= New Description=Capacitor
+Change Component Description : Designator=C29 Old Description= New Description=Capacitor
+Change Component Description : Designator=C30 Old Description= New Description=Capacitor
+Change Component Description : Designator=C31 Old Description= New Description=Capacitor
+Change Component Description : Designator=C32 Old Description= New Description=Capacitor
+Change Component Description : Designator=C33 Old Description= New Description=Capacitor
+Change Component Description : Designator=C34 Old Description= New Description=Capacitor
+Change Component Description : Designator=C35 Old Description= New Description=Capacitor
+Change Component Description : Designator=C36 Old Description= New Description=Capacitor
+Change Component Description : Designator=C37 Old Description= New Description=Capacitor
+Change Component Description : Designator=C38 Old Description= New Description=Capacitor
+Change Component Description : Designator=C39 Old Description= New Description=Capacitor
+Change Component Description : Designator=C40 Old Description= New Description=Capacitor
+Change Component Description : Designator=C41 Old Description= New Description=Capacitor
+Change Component Description : Designator=C42 Old Description= New Description=Capacitor
+Change Component Description : Designator=C43 Old Description= New Description=Capacitor
+Change Component Description : Designator=C44 Old Description= New Description=Capacitor
+Change Component Description : Designator=C45 Old Description= New Description=Capacitor
+Change Component Description : Designator=C46 Old Description= New Description=Capacitor
+Change Component Description : Designator=C47 Old Description= New Description=Capacitor
+Change Component Description : Designator=C65 Old Description= New Description=Capacitor
+Change Component Description : Designator=C66 Old Description= New Description=Capacitor
+Change Component Description : Designator=C67 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF1 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF2 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF7 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF8 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF9 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF11 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF13 Old Description= New Description=Capacitor
+Change Component Description : Designator=CF14 Old Description= New Description=Capacitor
+Change Component Description : Designator=Cp2 Old Description= New Description=Capacitor
+Change Component Description : Designator=Cx1 Old Description= New Description=Capacitor
+Change Component Description : Designator=Cy1 Old Description= New Description=Capacitor
+Change Component Description : Designator=Cy2 Old Description= New Description=Capacitor
+Change Component Description : Designator=J3 Old Description= New Description=Connector
+Change Component Description : Designator=J5 Old Description= New Description=Connector
+Change Component Description : Designator=J7 Old Description= New Description=Connector
+Change Component Description : Designator=J8 Old Description= New Description=Connector
+Change Component Description : Designator=JC1 Old Description= New Description=Connector
+Change Component Description : Designator=JC3 Old Description= New Description=Connector
+Change Component Description : Designator=Y1 Old Description= New Description=Crystal
+Change Component Description : Designator=Y2 Old Description= New Description=Crystal
+Change Component Description : Designator=C17 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=C24 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=C56 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=C57 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=C58 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=C97 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=Cp1 Old Description= New Description=Electrolytic Capacitor
+Change Component Description : Designator=R1 Old Description= New Description=Resistor
+Change Component Description : Designator=R2 Old Description= New Description=Resistor
+Change Component Description : Designator=R3 Old Description= New Description=Resistor
+Change Component Description : Designator=R9 Old Description= New Description=Resistor
+Change Component Description : Designator=M4 Old Description= New Description=RSM485S_CTM8251T
+Change Component Description : Designator=D1 Old Description= New Description=Zener,TVS
+Change Component Description : Designator=D4 Old Description= New Description=Zener,TVS
+Change Component Description : Designator=D5 Old Description= New Description=Zener,TVS
+Change Component Description : Designator=Dd1 Old Description= New Description=Zener,TVS
+Change Component Description : Designator=Dd6 Old Description= New Description=Zener,TVS
+Change Net Name : Old Net Name=NetD1_2 New Net Name=NetC42_1
+Change Net Name : Old Net Name=NetDd2_1 New Net Name=NetCd35_2
+Change Net Name : Old Net Name=NetDd3_2 New Net Name=NetCd38_2
+Change Net Name : Old Net Name=NetDd4_3 New Net Name=NetCd37_2
+Change Net Name : Old Net Name=NetJ2_44 New Net Name=NetCd1_2
+Change Net Name : Old Net Name=NetLd2_2 New Net Name=NetCd36_2
+Change Net Name : Old Net Name=NetMOV1_2 New Net Name=NetGDT1_1
+Change Net Name : Old Net Name=NetMOV3_2 New Net Name=NetGDT2_1
+Change Net Name : Old Net Name=NetN1_2 New Net Name=NetC40_2
+Change Net Name : Old Net Name=NetN4_1 New Net Name=NetC9_1
+Change Net Name : Old Net Name=NetN4_8 New Net Name=NetC9_2
+Change Net Name : Old Net Name=NetN5_1 New Net Name=NetC66_1
+Change Net Name : Old Net Name=NetN5_8 New Net Name=NetC66_2
+Change Net Name : Old Net Name=NetN7_2 New Net Name=NetCp1_1
+Change Net Name : Old Net Name=NetR11_1 New Net Name=Netled1_1
+Change Net Name : Old Net Name=NetR25_1 New Net Name=NetLED2_1
+Change Net Name : Old Net Name=NetR38_1 New Net Name=NetLED4_1
+Change Net Name : Old Net Name=NetRd10_2 New Net Name=NetCd34_2
+Change Net Name : Old Net Name=NetRd14_2 New Net Name=NetCd32_2
+Change Net Name : Old Net Name=NetRP1_5 New Net Name=NetJ2_15
+Change Net Name : Old Net Name=NetRP1_6 New Net Name=NetJ2_14
+Change Net Name : Old Net Name=NetRP1_7 New Net Name=NetJ2_13
+Change Net Name : Old Net Name=NetRP1_8 New Net Name=NetJ2_12
+Change Net Name : Old Net Name=NetRP2_5 New Net Name=NetJ2_22
+Change Net Name : Old Net Name=NetRP2_6 New Net Name=NetJ2_21
+Change Net Name : Old Net Name=NetRP2_7 New Net Name=NetJ2_20
+Change Net Name : Old Net Name=NetRP2_8 New Net Name=NetJ2_16
+Change Net Name : Old Net Name=NetRP3_5 New Net Name=NetJ2_28
+Change Net Name : Old Net Name=NetRP3_6 New Net Name=NetJ2_25
+Change Net Name : Old Net Name=NetRP3_7 New Net Name=NetJ2_24
+Change Net Name : Old Net Name=NetRP3_8 New Net Name=NetJ2_23
+Change Net Name : Old Net Name=NetRP4_5 New Net Name=NetJ2_32
+Change Net Name : Old Net Name=NetRP4_6 New Net Name=NetJ2_31
+Change Net Name : Old Net Name=NetRP4_7 New Net Name=NetJ2_30
+Change Net Name : Old Net Name=NetRP4_8 New Net Name=NetJ2_29
+Change Net Name : Old Net Name=NetU1_6 New Net Name=NetD2_3
+Change Net Name : Old Net Name=NetU1_49 New Net Name=NetCF2_2
+Change Net Name : Old Net Name=NetU1_73 New Net Name=NetCF1_2
+Change Net Name : Old Net Name=NetU1_99 New Net Name=NetRB10_1
+Change Net Name : Old Net Name=NetU9_2 New Net Name=NetR23_1
+Change Net Name : Old Net Name=NetUd5_1 New Net Name=NetDd1_1
+Change Net Name : Old Net Name=NetUd7_3 New Net Name=NetCd50_2
+Change Class Name : Old Net Name=20160506Core_Cpu New Net Name=VM
+Added Member To Class: ClassName=VM Member=Component C20 105/250V
+Added Member To Class: ClassName=VM Member=Component J7 
+Added Member To Class: ClassName=VM Member=Component J8 NC
+Added Member To Class: ClassName=VM Member=Component LED2 Red/Led
+Added Member To Class: ClassName=VM Member=Component LED4 Red/Led
+Added Member To Class: ClassName=VM Member=Component R25 1K
+Added Member To Class: ClassName=VM Member=Component R30 103/1206
+Added Member To Class: ClassName=VM Member=Component R34 103/1206
+Added Member To Class: ClassName=VM Member=Component R36 0
+Added Member To Class: ClassName=VM Member=Component R37 0
+Added Member To Class: ClassName=VM Member=Component R38 1K
+Added Member To Class: ClassName=VM Member=Component R39 120
+Added Member To Class: ClassName=VM Member=Component R40 10M
+Added Member To Class: ClassName=VM Member=Component Rd10 0
+Added Member To Class: ClassName=VM Member=Component Rd15 0
+Added Room: Name=VM
