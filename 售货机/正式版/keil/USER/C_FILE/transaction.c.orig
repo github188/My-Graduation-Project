@@ -1,0 +1,600 @@
+
+#include "transaction.h"//GPRS单元
+#include "delay.h"//
+#include "usart1.h"
+#include "modbus_tcp.h"//
+#include "string.h"//
+#include "Global.h"
+#include "BL_UI.h"//
+#include "key.h"//
+
+unsigned char Input_Key = KEY_NULL; //输入键值
+unsigned char Transaction_Finished = NO; //交易完成标志
+unsigned char Commodity_Id = 0; //商品ID
+unsigned char Commodity_Lack = 0; //商品缺货标志
+unsigned char Pay_Status = PAY_FAILED; //支付状态
+unsigned char PayWaitTime = PAY_WAITTIME; //支付等待时间
+//
+transaction_info_struct Device_Transaction_Info;	//该设备商品信息
+transaction_status_struct Device_Transaction_Status;	//该设备商品状态
+
+//
+#define		TRANSACTION_KINDS		5
+//名称
+unsigned char Transaction_1_Name[10] = "旺仔";
+unsigned char Transaction_2_Name[10] = "牛奶";
+unsigned char Transaction_3_Name[10] = "拿铁";
+unsigned char Transaction_4_Name[10] = "橙汁";
+unsigned char Transaction_5_Name[10] = "纯净水";
+unsigned char *Transaction_NameBuf[TRANSACTION_KINDS] = {Transaction_1_Name, Transaction_2_Name, Transaction_3_Name, Transaction_4_Name, Transaction_5_Name};
+//价格
+unsigned char Transaction_1_Price[10] = "3.0";
+unsigned char Transaction_2_Price[10] = "4.0";
+unsigned char Transaction_3_Price[10] = "4.5";
+unsigned char Transaction_4_Price[10] = "2.5";
+unsigned char Transaction_5_Price[10] = "1.5";
+unsigned char *Transaction_PriceBuf[TRANSACTION_KINDS] = {Transaction_1_Price, Transaction_2_Price, Transaction_3_Price, Transaction_4_Price, Transaction_5_Price};
+////
+//unsigned char Transaction_1_Num[10] = "旺仔";
+//unsigned char Transaction_2_Num[10] = "牛奶";
+//unsigned char Transaction_3_Num[10] = "拿铁";
+//unsigned char Transaction_4_Num[10] = "橙汁";
+//unsigned char Transaction_5_Num[10] = "纯净水";
+//unsigned char *Transaction_NumBuf[TRANSACTION_KINDS]={Transaction_1_Num,Transaction_2_Num,Transaction_3_Num,Transaction_4_Num,Transaction_5_Num};
+//
+unsigned char Transaction_1_State[10] = "无";
+unsigned char Transaction_2_State[10] = "等待";
+unsigned char Transaction_3_State[10] = "失败";
+unsigned char Transaction_4_State[10] = "成功";
+unsigned char *Transaction_StateBuf[4] = {Transaction_1_State, Transaction_2_State, Transaction_3_State, Transaction_4_State};
+
+
+
+/*
+扫描键值
+*/
+unsigned char Key_Scan(void)
+{
+    unsigned char key_value;
+
+    key_value = KeyRead();
+    switch (key_value)
+    {
+
+    case 0:
+        key_value = KEY_CD4;
+        break;
+    case 4:
+        key_value = KEY_CD3;
+        break;
+    case 8:
+        key_value = KEY_CD2;
+        break;
+    case 12:
+        key_value = KEY_CD1;
+        break;
+    case 28:
+        key_value = KEY_NULL;
+        break;
+    default:
+        key_value = KEY_NULL;
+        break;
+    }
+    return key_value;
+}
+
+
+
+/*
+根据键值确定商品编号
+*/
+unsigned char Key2CDID(unsigned char key)
+{
+    unsigned char id;
+    //
+    id = key;
+
+    return id;
+}
+
+/*
+根据商品编号查询库存
+*/
+unsigned char Commodity_ReserveCheck(unsigned char id)
+{
+    unsigned char res = 0;
+    unsigned int wait_time = MB_RECWAITTIME;
+    mb_info_struct mb_check;
+
+    mb_check.Slave_ID = 1;
+    mb_check.Func_Code = 0x03;
+    mb_check.Reg_BeginAddr = ((id - 1) << 2);
+    mb_check.Reg_Num = 4;
+
+    //读取商品库存信息
+    modbus_send_cmd(&mb_check);
+    //返回商品缺货状态
+    while(((USART1_RX_STA & 0x8000) == 0) && (wait_time > 0))
+    {
+        delay_ms(100);
+        wait_time--;
+    }
+    if(wait_time != 0) //收到响应	,拆包数据
+    {
+        if((USART1_RX_STA & 0x8000) != 0)
+        {
+            USART1_RX_STA = 0;
+            if(TcpServer_ReadDataBuf[0] == id)
+            {
+                Device_Transaction_Info.Transaction_Num = TcpServer_ReadDataBuf[1];
+                Device_Transaction_Info.Transaction_Price = TcpServer_ReadDataBuf[2];
+                res = Device_Transaction_Info.Transaction_Num;
+            }
+        }
+    }
+    else//响应失败
+    {
+        res = 0;
+    }
+    return res;
+}
+
+/*
+查询商品支付状态*/
+unsigned char CheckPay_Status(unsigned char id)
+{
+    unsigned char res = PAY_FAILED;
+    unsigned int wait_time = MB_RECWAITTIME;
+    mb_info_struct mb_check;
+
+    mb_check.Slave_ID = 1;
+    mb_check.Func_Code = 0x03;
+    mb_check.Reg_BeginAddr = ((id - 1) << 2) + 40;
+    mb_check.Reg_Num = 4;
+
+    //读取商品支付状态
+    modbus_send_cmd(&mb_check);
+    //返回商品支付状态
+    while((USART1_RX_STA & 0x8000) == 0 && (wait_time > 0))
+    {
+        delay_ms(100);
+        wait_time--;
+    }
+    if(wait_time != 0) //收到响应	,拆包数据
+    {
+        if((USART1_RX_STA & 0x8000) != 0)
+        {
+            USART1_RX_STA = 0;
+            if(TcpServer_ReadDataBuf[0] == id)
+            {
+                Device_Transaction_Status.Transaction_Status = TcpServer_ReadDataBuf[1];
+                Device_Transaction_Status.Transaction_BuyRequest = TcpServer_ReadDataBuf[2];
+                Device_Transaction_Status.Transaction_PayStatus = TcpServer_ReadDataBuf[3];
+                if(Device_Transaction_Status.Transaction_PayStatus == PAY_SUCCESSED)
+                {
+                    res = PAY_SUCCESSED;
+                }
+            }
+        }
+
+    }
+    else//响应失败
+    {
+        res = PAY_FAILED;
+    }
+    return res;
+}
+
+/*
+置位购买请求
+*/
+mb_info_struct mb_check;
+unsigned char PushBuy_Request(unsigned char id)
+{
+    unsigned char res = REQUEST_FAILED;
+    unsigned int wait_time = MB_RECWAITTIME;
+
+    mb_check.Slave_ID = 1;
+    mb_check.Func_Code = 0x10;
+    mb_check.Reg_BeginAddr = ((id - 1) << 2) + 2 + 40;
+    mb_check.Reg_Num = 1;
+    mb_check.Data_Buf[0] = 0x0001;
+
+
+    //置位商品购买请求
+    modbus_send_cmd(&mb_check);
+    //返回购买请求
+    while((USART1_RX_STA & 0x8000) == 0 && (wait_time > 0))
+    {
+        delay_ms(100);
+        wait_time--;
+    }
+    if(wait_time != 0) //收到响应	,拆包数据
+    {
+        if((USART1_RX_STA & 0x8000) != 0)
+        {
+            USART1_RX_STA = 0;
+            res = REQUEST_SUCCESSED;
+        }
+    }
+    else//响应失败
+    {
+        res = REQUEST_FAILED;
+    }
+    return res;
+}
+
+
+
+/*
+恢复设备到售货初始状态
+*/
+void ResetDevice2InitSellMode(void)
+{
+    //
+    Part_Init();
+    //
+    LcdShow_SystemIdle();
+}
+
+//LCD显示测试
+void LCD_ShowTest(void)
+{
+    Device_Transaction_Info.Transaction_ID = 1;
+    Device_Transaction_Info.Transaction_Num = 10;
+    Device_Transaction_Status.Transaction_PayStatus = PAY_SUCCESSED;
+
+
+//	//英文字符
+//	UI_ShowString( 320,100,200,16,16,(u8 *)"LCD Display Test");
+//	//中文字符
+//	lcd_text24(300,200,BLACK,WHITE,"液晶屏显示测试");
+//	//数字
+//	Dis_Num16(350, 300, BLACK, WHITE, 6666);
+//	//图形显示
+//	Draw_Logo(340,400);
+
+
+    LcdShow_Frame();
+    //
+    LcdShow_SystemIdle();
+    //
+    LcdShow_TransactionLack();
+    //
+    LcdShow_WaitPay();
+    //
+    LcdShow_PayOutTime();
+    //
+    LcdShow_PayComplete();
+}
+
+/*
+显示框架
+*/
+void LcdShow_Frame(void)
+{
+    //
+    UI_Fill(0, 0, 800, 480, UI_COLOR_GRAY);
+    //
+    lcd_text24(10, 10, BLACK, WHITE, "系统状态：");
+    lcd_text24(140, 10, BLACK, WHITE, "正常");
+//	lcd_text24(140,10,BLACK,WHITE,"异常");
+    //
+    lcd_text24(300, 10, BLACK, WHITE, "设备状态：");
+    lcd_text24(430, 10, BLACK, WHITE, "在线");
+    //
+    lcd_text24(630, 10, BLACK, WHITE, "当前信号：");
+    Dis_Num16(750, 10, BLACK, WHITE, 97);
+//	lcd_text24(140,10,BLACK,WHITE,"离线");
+    //
+    LcdDrawRectangle( 0, 0, 800, 50, BLACK, 0);
+
+    //
+    lcd_text24(10, 450, BLACK, WHITE, "南京工程学院");
+    lcd_text24(530, 450, BLACK, WHITE, "自助售货机控制系统V1.0");
+    //
+    LcdDrawRectangle( 0, 430, 800, 480, BLACK, 0);
+}
+
+
+/*
+恢复显示框架
+*/
+void LcdShow_RestoreFrame(void)
+{
+    //
+    UI_Fill(0, 50, 800, 430, UI_COLOR_GRAY);
+}
+
+/*
+显示设备空闲状态
+*/
+void LcdShow_SystemIdle(void)
+{
+    //
+    LcdShow_RestoreFrame();
+    //
+    lcd_text24(350, 60, BLACK, WHITE, "空  闲");
+    //
+    lcd_text24(250, 100, BLACK, WHITE, "。 。 。 。 。 。 。 。 。");
+}
+
+/*
+商品信息显示
+*/
+void LcdShow_TransactionInfo(void)
+{
+    unsigned char *temp;
+    //
+    LcdShow_RestoreFrame();
+    //
+    lcd_text24(100, 100, BLACK, WHITE, "商品名称：");
+    lcd_text24(100, 150, BLACK, WHITE, "商品价格：");
+    lcd_text24(400, 100, BLACK, WHITE, "商品库存：");
+    lcd_text24(400, 150, BLACK, WHITE, "支付状态：");
+    //名称
+    switch (Device_Transaction_Info.Transaction_ID)
+    {
+    case 1:
+        temp = Transaction_NameBuf[0];
+        break;
+    case 2:
+        temp = Transaction_NameBuf[1];
+        break;
+    case 3:
+        temp = Transaction_NameBuf[2];
+        break;
+    case 4:
+        temp = Transaction_NameBuf[3];
+        break;
+    case 5:
+        temp = Transaction_NameBuf[4];
+        break;
+    default:
+        break;
+    }
+    lcd_text24(225, 100, BLACK, WHITE, temp);
+    //价格
+    switch (Device_Transaction_Info.Transaction_ID)
+    {
+    case 1:
+        temp = Transaction_PriceBuf[0];
+        break;
+    case 2:
+        temp = Transaction_PriceBuf[1];
+        break;
+    case 3:
+        temp = Transaction_PriceBuf[2];
+        break;
+    case 4:
+        temp = Transaction_PriceBuf[3];
+        break;
+    case 5:
+        temp = Transaction_PriceBuf[4];
+        break;
+    default:
+        break;
+    }
+    lcd_text24(225, 150, BLACK, WHITE, temp);
+    //库存
+    Dis_Num16(525, 100, BLACK, WHITE, Device_Transaction_Info.Transaction_Num);
+    //支付状态
+    switch (Device_Transaction_Status.Transaction_PayStatus)
+    {
+    case 0:
+        temp = Transaction_StateBuf[0];
+        break;
+    case 1:
+        temp = Transaction_StateBuf[1];
+        break;
+    case 2:
+        temp = Transaction_StateBuf[2];
+        break;
+    case 3:
+        temp = Transaction_StateBuf[3];
+        break;
+    default:
+        break;
+    }
+    lcd_text24(525, 150, BLACK, WHITE, temp);
+    //
+    LcdDrawRectangle( 50, 80, 700, 200, BLACK, 0);
+}
+
+/*
+显示商品缺货信息
+*/
+void LcdShow_TransactionLack(void)
+{
+    //
+    LcdShow_RestoreFrame();
+    //
+    LcdShow_TransactionInfo();
+    //
+    lcd_text24(180, 250, BLACK, WHITE, "您所选择的商品暂时缺货，我们将尽快解决");
+    //
+    lcd_text24(280, 300, BLACK, WHITE, "请选择其他商品");
+    //
+    lcd_text24(260, 350, BLACK, WHITE, "页面将在      秒内关闭");
+    //
+    Dis_Num16(260 + 24 * 4, 350, BLACK, WHITE, 10);
+}
+
+/*
+显示单价及等待付款信息
+*/
+void LcdShow_WaitPay(void)
+{
+    //
+    LcdShow_RestoreFrame();
+    //
+    LcdShow_TransactionInfo();
+    //
+    lcd_text24(10, 250, BLACK, WHITE, "支付信息：请通过手机将地址      数据置1来完成支付");
+    Dis_Num16(10 + 24 * 13, 250, BLACK, WHITE, ((Device_Transaction_Info.Transaction_ID - 1) << 2) + 43);
+    //
+    lcd_text24(180, 300, BLACK, WHITE, "您已选定商品，请尽快根据付款信息进行支付");
+    //
+    lcd_text24(260, 350, BLACK, WHITE, "正在检测支付结果（      秒）");
+    //
+    Dis_Num16(260 + 24 * 9, 350, BLACK, WHITE, 10);
+}
+
+/*
+显示付款超时提示信息
+*/
+void LcdShow_PayOutTime(void)
+{
+    //
+    LcdShow_RestoreFrame();
+    //
+    LcdShow_TransactionInfo();
+    //
+    lcd_text24(150, 250, BLACK, WHITE, "系统在指定时间内未检测到付款结果，本次交易失败");
+    //
+    lcd_text24(250, 300, BLACK, WHITE, "请尝试重新购买并完成支付");
+    //
+    lcd_text24(280, 350, BLACK, WHITE, "页面将在      秒后关闭");
+    //
+    Dis_Num16(280 + 24 * 4, 350, BLACK, WHITE, 10);
+}
+
+/*
+显示付款成功示信息
+*/
+void LcdShow_PayComplete(void)
+{
+    //
+    LcdShow_RestoreFrame();
+    //
+    LcdShow_TransactionInfo();
+    //
+    lcd_text24(350, 250, BLACK, WHITE, "支付成功");
+    //
+    lcd_text24(250, 300, BLACK, WHITE, "系统正在为你出货，请注意查收");
+    //
+    lcd_text24(280, 350, BLACK, WHITE, "感谢您的使用（      秒）");
+    //
+    Dis_Num16(280 + 24 * 7, 350, BLACK, WHITE, 10);
+}
+
+/*
+数据初始化
+*/
+void Part_Init(void)
+{
+    memset((unsigned char*)&Device_Transaction_Info, 0, sizeof(Device_Transaction_Info));
+    memset((unsigned char*)&Device_Transaction_Status, 0, sizeof(Device_Transaction_Status));
+}
+
+
+
+/*
+
+*/
+void Transaction_Process(unsigned char id)
+{
+    //根据键值确定商品编码
+    Device_Transaction_Info.Transaction_ID = Key2CDID(id);
+    //查询商品库存
+    Device_Transaction_Info.Transaction_Num = Commodity_ReserveCheck(Device_Transaction_Info.Transaction_ID);
+    //
+    if(Device_Transaction_Info.Transaction_Num == 0) //缺货
+    {
+        //输出相关信息
+        LcdShow_TransactionLack();
+        delay_ms(3000);
+        //复位设备状态
+        ResetDevice2InitSellMode();
+    }
+    else//不缺货
+    {
+        //输出付款信息、提示用户进行付款
+			Device_Transaction_Status.Transaction_Status=PAY_WAIT;
+        LcdShow_WaitPay();
+        //置商品购买请求
+        PushBuy_Request(Device_Transaction_Info.Transaction_ID);
+        //查询支付状态（超时等待）
+        PayWaitTime = PAY_WAITTIME;
+        do
+        {
+            Device_Transaction_Status.Transaction_Status = CheckPay_Status(Device_Transaction_Info.Transaction_ID);
+            delay_ms( 1000);
+            PayWaitTime--;
+        } while((Device_Transaction_Status.Transaction_Status != PAY_SUCCESSED) && (PayWaitTime != 0));
+        if(Device_Transaction_Status.Transaction_Status == PAY_SUCCESSED) //支付成功
+        {
+            //
+            LcdShow_PayComplete();
+            //通知动作执行机构发货
+            Transaction_Finished = YES;
+						Device_Transaction_Status.Transaction_Status=PAY_NONE;
+        } else//支付超时-输出相关信息、复位设备状态
+        {
+            //
+						Device_Transaction_Status.Transaction_Status=PAY_FAILED;
+            LcdShow_PayOutTime();
+						delay_ms(3000);
+            //
+            ResetDevice2InitSellMode();
+        }
+    }
+}
+
+/*
+
+*/
+void NoticeDevice_Action(void)
+{
+	unsigned char i,sum=0;
+    //通过向动作执行机构发送can指令来启动出货
+	GKY_TxMsg.data[0]=0x01;		
+		GKY_TxMsg.data[1]=0x01;		
+		GKY_TxMsg.data[2]=0x01;		
+		GKY_TxMsg.data[3]=0x01;		
+		GKY_TxMsg.data[4]=0x01;		
+		GKY_TxMsg.data[5]=0x01;		
+	GKY_TxMsg.data[6]=0x01;		
+	
+	for(i=0;i<8-1;i++)	sum+=GKY_TxMsg.data[i];		
+	GKY_TxMsg.data[7]=sum;
+	CAN1_Send_Msg(0x01);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

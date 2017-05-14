@@ -1,0 +1,359 @@
+#include "delay.h"  //延时函数
+#include "ff.h"  //文件系统相关
+#include "usbh_usr.h"//usb库相关 
+#include "stmflash.h"//flash操作相关
+#include "string.h"
+#include "lcd.h"
+#include "BL_UI.h"
+#include "RTC.h"
+#include "systick.h"
+//#include "COMTimer.h"
+#include "stm32f4xx.h"
+#include "Master.h"
+#include "stm32f4xx_can.h"
+#include "can.h"
+#include "Global.h"
+#include "key.h"
+
+/************add************
+**/
+#include "define.h"//周期定时、频率测量
+
+#include "SPI_W500.h"//w5500硬件配置
+#include "wizchip_conf.h"//w5500参数配置
+#include "loopback.h"//server处理程序
+#include "socket.h"//socket库
+#include "package.h"//modbus模块
+/**
+************end************/
+
+
+
+/************add************/
+#include "modbus_tcp.h"//mb协议单元
+#include "usart1.h"////串口单元1
+#include "timer4_usart.h"//串口单元2
+#include "sim900a.h"//GPRS单元
+#include "timer.h"//
+#include "transaction.h"//
+/************end********/
+/*
+****
+****server public ip:	115.159.180.213				port:502
+****
+*/
+const char *Server_IpAddr = "115.159.180.213";	//服务器ip
+const char *Server_Port = "502";							//服务器监听端口
+const char *Server_APN = "CMNET";							//****/
+unsigned char temp_data[10];
+unsigned char NeedInitFlag = 1;
+
+
+#define COM_TIMER TIM4
+#define COM_TIMER_IRQn TIM4_IRQn
+#define COM_TIMER_IRQHandler TIM4_IRQHandler
+#define COM_TIMER_RCC RCC_APB1Periph_TIM4
+unsigned char u4RxdBuf[100], u4TxdBuf[10];
+unsigned int  u4RxdCnt, u4TxdCnt;
+extern unsigned char flgU5Stx, flgU4OK;
+extern unsigned char flgIcDat1OK;
+//unsigned char CarId[7],PendCarId[7];
+unsigned char canbuf[8];
+
+static u32 CpuID[3];
+extern void EEP_init(void);
+extern void EepRd(u16 ReadAddr, u16 NumByteToWrite);
+extern void EepWr(u16 ReadAddr, u16 NumByteToWrite);
+extern void sysTickInit(void);
+extern unsigned char EepWrBuf[200];
+extern unsigned char EepRdBuf[200];
+unsigned char flg1S;
+void COMTimerConfig(void)
+{
+    NVIC_InitTypeDef NVIC_InitStructure;
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+    RCC_APB1PeriphClockCmd(COM_TIMER_RCC, ENABLE);
+    //??????50us????
+    TIM_DeInit(COM_TIMER);												//???Timer??????
+    TIM_InternalClockConfig(COM_TIMER);									//???????COM_TIMER?????
+    TIM_TimeBaseStructure.TIM_Prescaler = 42 - 1;					//42-1,????????84MHz/42 = 2MHz
+    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;			//??????
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;		//??????????????
+    TIM_TimeBaseStructure.TIM_Period = 100 - 1;						//     50us????
+    TIM_TimeBaseInit(COM_TIMER, &TIM_TimeBaseStructure);					//??????COM_TIMER?
+    TIM_ClearFlag(COM_TIMER, TIM_FLAG_Update);							//????????
+    TIM_ARRPreloadConfig(COM_TIMER, DISABLE);								//??ARR??????,???????????,????????(TIMx_ARR)?????????????????;??????????,??? ARR //??????????,????????????????????
+
+
+    //????
+    NVIC_InitStructure.NVIC_IRQChannel = COM_TIMER_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    TIM_ClearFlag(COM_TIMER, TIM_FLAG_Update); //????????
+    TIM_SetCounter(COM_TIMER, 0x00);			//??????
+    TIM_ITConfig(COM_TIMER, TIM_IT_Update, ENABLE);
+    TIM_Cmd(COM_TIMER, ENABLE);
+}
+
+unsigned long uw2S;
+unsigned char flg2S;
+//50us??
+//void COM_TIMER_IRQHandler(void)
+//{
+//	static uint32_t t1msCnt = 0;
+//       if(TIM_GetITStatus(COM_TIMER, TIM_IT_Update) != RESET)
+//       {
+//			//??COM_TIMER???????
+//			TIM_ClearITPendingBit(COM_TIMER , TIM_FLAG_Update);
+//			t1msCnt++;
+//			if(t1msCnt > 1000)
+//			{
+//				t1msCnt = 0;
+//				flg1S=1;
+//			}
+//			if(++uw2S>3000)
+//			{
+//				uw2S=0;
+//				flg2S=1;
+//			}
+//       }
+//}
+
+
+unsigned char CmpCpuId(void)
+{
+    unsigned char tBuf[14], i;
+    unsigned char flgIdOk = 0;
+    EepRd(114, 14);
+    CpuID[0] = *(vu32*)(0x1FFF7A10); //0x1ffff7e8
+    CpuID[1] = *(vu32*)(0x1FFF7A14); //0x1ffff7ec
+    CpuID[2] = *(vu32*)(0x1FFF7A18); //0x1ffff7f0
+    tBuf[0] = 0xA5;
+    tBuf[1] = (unsigned char)( CpuID[0] & 0xFF);
+    tBuf[2] = (unsigned char)((CpuID[0] >> 8) & 0xFF);
+    tBuf[3] = (unsigned char)((CpuID[0] >> 16) & 0xFF);
+    tBuf[4] = (unsigned char)((CpuID[0] >> 24) & 0xFF);
+    tBuf[5] = (unsigned char)( CpuID[1] & 0xFF);
+    tBuf[6] = (unsigned char)((CpuID[1] >> 8) & 0xFF);
+    tBuf[7] = (unsigned char)((CpuID[1] >> 16) & 0xFF);
+    tBuf[8] = (unsigned char)((CpuID[1] >> 24) & 0xFF);
+    tBuf[9] = (unsigned char)( CpuID[2] & 0xFF);
+    tBuf[10] = (unsigned char)((CpuID[2] >> 8) & 0xFF);
+    tBuf[11] = (unsigned char)((CpuID[2] >> 16) & 0xFF);
+    tBuf[12] = (unsigned char)((CpuID[2] >> 24) & 0xFF);
+    tBuf[13] = 0x5A;
+    for(i = 0; i < 14; i++)
+    {
+        if(tBuf[i] != EepRdBuf[i])
+        {
+            flgIdOk = 1;
+            break;
+        }
+    }
+    return flgIdOk;
+}
+void GetLockCode(void)
+{
+    unsigned char tBuf[14], i;
+    EepRd(113, 15);
+    if((EepRdBuf[1] != 0xA5) || (EepRdBuf[13] != 0x5A))
+    {
+        CpuID[0] = *(vu32*)(0x1FFF7A10); //0x1ffff7e8
+        CpuID[1] = *(vu32*)(0x1FFF7A14); //0x1ffff7ec
+        CpuID[2] = *(vu32*)(0x1FFF7A18); //0x1ffff7f0
+        tBuf[0] = 0xA5;
+        tBuf[1] = (unsigned char)( CpuID[0] & 0xFF);
+        tBuf[2] = (unsigned char)((CpuID[0] >> 8) & 0xFF);
+        tBuf[3] = (unsigned char)((CpuID[0] >> 16) & 0xFF);
+        tBuf[4] = (unsigned char)((CpuID[0] >> 24) & 0xFF);
+        tBuf[5] = (unsigned char)( CpuID[1] & 0xFF);
+        tBuf[6] = (unsigned char)((CpuID[1] >> 8) & 0xFF);
+        tBuf[7] = (unsigned char)((CpuID[1] >> 16) & 0xFF);
+        tBuf[8] = (unsigned char)((CpuID[1] >> 24) & 0xFF);
+        tBuf[9] = (unsigned char)( CpuID[2] & 0xFF);
+        tBuf[10] = (unsigned char)((CpuID[2] >> 8) & 0xFF);
+        tBuf[11] = (unsigned char)((CpuID[2] >> 16) & 0xFF);
+        tBuf[12] = (unsigned char)((CpuID[2] >> 24) & 0xFF);
+        tBuf[13] = 0x5A;
+        for(i = 0; i < 14; i++)
+            EepWrBuf[i] = tBuf[i];
+        EepWr(114, 14);
+    }
+    //????,????????
+    //Lock_Code=(CpuID[0]>>1)+(CpuID[1]>>2)+(CpuID[2]>>3);
+}
+/************add************
+**/
+uint16_t server_port[ CLIENT_MAXNUM] = { 502, 3001, 3002, 3003}; //四个监听端口
+/********************************end add*******************************************/
+
+//uint8_t rev_buf[2000];//接收缓存
+unsigned char TX_RX_BufferSize[][8] = {{TX1_BUFSIZE, TX2_BUFSIZE, TX3_BUFSIZE, TX4_BUFSIZE, TX5_BUFSIZE, TX6_BUFSIZE, TX7_BUFSIZE, TX8_BUFSIZE},
+    {RX1_BUFSIZE, RX2_BUFSIZE, RX3_BUFSIZE, RX4_BUFSIZE, RX5_BUFSIZE, RX6_BUFSIZE, RX7_BUFSIZE, RX8_BUFSIZE}
+};//16K发送缓存分配给8个socket|16K接收缓存分配给8个socket
+
+wiz_NetInfo gWIZNETINFO = { .mac = {0x00, 0x08, 0xdc, 0x00, 0xab, 0xcd}, //本地mac,<-mac should be unique.
+                            .ip = {192, 168, 0, 111},//本地ip
+                            .sn = {255, 255, 255, 0}, //子网掩码一般255.255.255.0
+                            .gw = {192, 168, 0, 1},//网管一般设成路由器ip即可
+                            .dns = {0, 0, 0, 0}, //
+                            .dhcp = NETINFO_STATIC
+                          };//静态
+//设置超时时间
+wiz_NetTimeout  gWIZTIMEOUT = {.retry_cnt = 5,//重连次数：5
+                               .time_100us = 2000
+                              };//超时时间：2000*100us=200ms
+/**
+************end************/
+
+void GPIO_CONFIG(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+}
+
+
+
+u8 UPDATE_CHECK = 0; //定义升级检测标志位
+u8 verify( void);//U盘及升级代码验证程序
+void USH_User_App( void);//开机规定时间内检测是否存在升级U盘
+extern void CANHardwareConfig(void);
+
+//之后的应用程序也必须在此地址基础上进行编译
+#define		APP_CODE_START_ADDRESS		0X08010000
+
+//usb主机句柄
+USBH_HOST  USB_Host;
+//usb内核句柄
+USB_OTG_CORE_HANDLE  USB_OTG_Core;
+
+FATFS myfs;//定义逻辑磁盘对象
+FATFS *fs = &myfs; //定义逻辑磁盘对象指针
+FIL myfile;//定义文件对象
+FIL *file = &myfile; //定义文件对象指针
+#define		BUFF_SIZE		512//定义缓冲区大小
+u8 databuf[BUFF_SIZE];
+unsigned char flgTest, flgSafe;
+//unsigned char cntIC;
+u8 idPKQ = 5;
+
+u8 rtnCAN = 0;
+
+
+u8 i;
+CanTxMsg CanSendData;
+//
+int main(void)
+{
+//  char *tDateAndTimeString;
+    static uint8_t client_index;//必须定义为static，否则slave_modbus_response函数会改变client_index的值,待研究
+    u16 str_start;//临时变量、字符串起始位置
+    char str1[100];//字符串数组——存放提示信息
+    u8 verify_res;//验证结果
+    uint32_t wait_time;//开机检测时间------3S
+    u32 br;//定义读到字节数变量
+    FRESULT res;//定义文件操作结果
+    u32 WriteAddr = 0x08010000; //定义app代码起始地址
+    char *tDateAndTimeString;
+    uint16_t tDataAndTimeArray[6];
+//	u32 Reset_HandlerAddr=WriteAddr;//用户程序起始地址
+
+    SystemInit();
+//  NVIC_SetVectorTable(NVIC_VectTab_FLASH,0x08010000-NVIC_VectTab_FLASH);//????
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_CRC, ENABLE);
+    //sysTickInit();
+
+    delay_init(168);  //初始化延时函数
+    delay_ms( 100);
+    Usart_Init(115200);	//串口初始化波特率为115200
+    delay_ms( 200);
+
+    UI_Init( );
+//	LCD_ShowTest();while(1);
+		//
+		CANHardwareConfig();
+		CAN1_Mode_Init(CAN_SJW_1tq,CAN_BS2_6tq,CAN_BS1_7tq,60,CAN_Mode_Normal);//CAN初始化环回模式,波特率50Kbps    
+//		for(i=0;i<8;i++)GKY_TxMsg.data[i]=i;	
+//		while(1)
+//		{
+//			CAN1_Send_Msg(0x01);
+//			delay_ms(500);
+//		}
+
+    //首次上电初始化后，只要服务器不断开，下次调试时可不用重复初始化SIM900A
+    if(NeedInitFlag)
+    {
+        sim900a_init();		//sim900a模块初始化
+    }
+    //
+    KeyHardwareConfig();
+		//
+    USART1_RX_STA = 0;		//初始状态为0
+
+    //
+    LcdShow_Frame();
+    LcdShow_SystemIdle();
+
+    while(1)
+    {
+
+        //输入扫描
+        Input_Key = Key_Scan();
+        //
+        if(Input_Key != KEY_NULL)
+        {
+            //交易流程处理
+						Part_Init();
+            Transaction_Process(Input_Key);
+            Input_Key = 0;
+        }
+        //
+        if(Transaction_Finished != NO)
+        {
+            Transaction_Finished = NO;
+            //通知发货机构动作
+            NoticeDevice_Action();
+            //
+						delay_ms(3000);
+            LcdShow_SystemIdle();
+        }
+    }
+}
+//U盘及升级代码验证程序
+//param :none
+//ret   :0-verify pass		other-verify failed
+u8 verify( void)
+{
+    /************************这里添加验证算法***************************/
+
+    /*----------------------------VERIFY-------------------------------*/
+
+    return 0;
+}
+
+//U盘检测置位函数
+//param :none
+//ret   :none
+void USH_User_App( void)
+{
+    UPDATE_CHECK = 1;
+}
+
+
+
+
+
+
+
