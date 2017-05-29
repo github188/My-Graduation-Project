@@ -1,0 +1,3 @@
+del *.tmp /s
+
+exit
